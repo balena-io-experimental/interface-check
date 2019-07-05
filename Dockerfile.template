@@ -1,0 +1,13 @@
+FROM balenalib/%%RESIN_MACHINE_NAME%%-debian:buster-20190629
+
+RUN install_packages build-essential libnm-dev python3-pip python3-setuptools python3-gevent python3-zmq python3-msgpack python3-future
+
+RUN pip3 install zerorpc
+
+RUN install_packages python3-gi
+
+COPY client.py .
+
+ENV DBUS_SYSTEM_BUS_ADDRESS unix:path=/host/run/dbus/system_bus_socket
+
+CMD ["python3", "client.py"]
