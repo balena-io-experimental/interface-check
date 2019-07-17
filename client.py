@@ -3,6 +3,8 @@
 import os
 import time
 import zerorpc
+import balena
+import multiprocessing
 
 import gi
 gi.require_version('NM', '1.0')
@@ -49,6 +51,23 @@ def connect():
 
     return rpc
 
+def reboot():
+    Supervisor = balena.models.supervisor.Supervisor
+    print('On device: ', Supervisor._on_device)
+    Supervisor.SUPERVISOR_API_KEY = os.environ.get('RESIN_SUPERVISOR_API_KEY')
+    supervisor = Supervisor()
+    supervisor.reboot()
+
+def calculate(x):
+    while True:
+        x*x
+
+def stress():
+    processes = multiprocessing.cpu_count()
+    print('Stressing {} cores'.format(processes))
+
+    pool = multiprocessing.Pool(processes)
+    pool.map(calculate, range(processes))
 
 def main():
     data = probe()
@@ -57,8 +76,6 @@ def main():
 
     rpc.report(data)
 
-    while True:
-        print('waiting...')
-        time.sleep(10)
+    stress()
 
 main()

@@ -1,10 +1,28 @@
 FROM balenalib/%%RESIN_MACHINE_NAME%%-debian:buster-20190629
 
-RUN install_packages build-essential libnm-dev python3-pip python3-setuptools python3-gevent python3-zmq python3-msgpack python3-future
+RUN install_packages \
+    build-essential \
+    libnm-dev \
+    stress \
+    python3 \
+    python3-cffi \
+    python3-pip \
+    python3-setuptools \
+    python3-gevent \
+    python3-zmq \
+    python3-msgpack \
+    python3-future \
+    python3-gi \
+    python3-openssl \
+    python3-pyotp \
+    python3-jwt \
+    python3-twisted \
+    python3-requests \
+    python3-semver
 
 RUN pip3 install zerorpc
-
-RUN install_packages python3-gi
+RUN pip3 install zerorpc
+RUN pip3 install balena-sdk
 
 COPY client.py .
 

@@ -44,7 +44,7 @@ class RPC:
             AWAITING_DEVICES.remove(address)
 
         if len(AWAITING_DEVICES) == 0:
-            gevent.spawn_later(10, power_off)
+            gevent.spawn_later(60, power_off)
 
 
 def power_outlet(state):
@@ -76,7 +76,7 @@ def power_off():
 
     print('Power off...')
     power_outlet(False)
-    gevent.spawn_later(1, power_on)
+    gevent.spawn_later(60, power_on)
     POWERED = False
 
 def power_on():
